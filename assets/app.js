@@ -19,7 +19,6 @@ const els = {
   resultList: document.getElementById("resultList"),
   reader: document.getElementById("reader"),
   clearButton: document.getElementById("clearButton"),
-  categoryBars: document.getElementById("categoryBars"),
   sidebarToggle: document.getElementById("sidebarToggle"),
 };
 
@@ -128,25 +127,6 @@ function renderTypeFilter() {
     .join("");
 }
 
-function renderBars() {
-  const counts = new Map();
-  for (const entry of state.visible) counts.set(entry.category, (counts.get(entry.category) || 0) + 1);
-  const rows = archive.categories
-    .filter((category) => category !== "全部" && counts.get(category))
-    .map((category) => [category, counts.get(category)])
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4);
-  const max = Math.max(1, ...rows.map((row) => row[1]));
-  const bars = rows
-    .map(([category, count]) => `<div class="bar-row">
-      <span>${escapeHtml(category)}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(5, (count / max) * 100)}%"></div></div>
-      <strong>${count}</strong>
-    </div>`)
-    .join("");
-  els.categoryBars.innerHTML = `<div class="panel-title">分类分布</div>${bars || `<div class="empty-state compact">暂无分类分布</div>`}`;
-}
-
 function highlight(value) {
   const tokens = tokenize(state.query).slice(0, 6);
   let html = escapeHtml(value);
@@ -252,7 +232,6 @@ function render() {
   filterEntries();
   renderCategories();
   renderTypeFilter();
-  renderBars();
   renderResults();
   renderReader();
   if (state.selectedId) history.replaceState(null, "", `#item-${state.selectedId}`);
