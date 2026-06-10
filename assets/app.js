@@ -135,7 +135,7 @@ function renderBars() {
     .filter((category) => category !== "全部" && counts.get(category))
     .map((category) => [category, counts.get(category)])
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
+    .slice(0, 4);
   const max = Math.max(1, ...rows.map((row) => row[1]));
   const bars = rows
     .map(([category, count]) => `<div class="bar-row">

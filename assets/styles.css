@@ -401,7 +401,7 @@ select {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  gap: 22px;
+  gap: 16px;
 }
 
 .category-bars,
@@ -414,23 +414,25 @@ select {
 
 .category-bars {
   display: grid;
-  gap: 15px;
-  padding: 24px 26px;
+  gap: 8px;
+  padding: 14px 18px;
 }
 
 .panel-title {
   color: var(--heading);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 800;
+  line-height: 1.2;
 }
 
 .bar-row {
   display: grid;
-  grid-template-columns: 150px minmax(120px, 1fr) 56px;
-  gap: 18px;
+  grid-template-columns: 118px minmax(90px, 1fr) 42px;
+  gap: 12px;
   align-items: center;
   color: var(--muted-strong);
-  font-size: 16px;
+  font-size: 13px;
+  line-height: 1.25;
 }
 
 .bar-row span {
@@ -442,12 +444,12 @@ select {
 
 .bar-row strong {
   color: var(--heading);
-  font-size: 16px;
+  font-size: 13px;
   text-align: right;
 }
 
 .bar-track {
-  height: 12px;
+  height: 7px;
   overflow: hidden;
   border-radius: 999px;
   background: var(--surface-strong);
@@ -731,7 +733,7 @@ mark {
   }
 
   .bar-row {
-    grid-template-columns: 126px minmax(100px, 1fr) 48px;
+    grid-template-columns: 108px minmax(80px, 1fr) 38px;
   }
 
   .reader {
@@ -877,10 +879,15 @@ mark {
     padding: 22px 18px;
   }
 
+  .category-bars {
+    gap: 8px;
+    padding: 14px 16px;
+  }
+
   .bar-row {
-    grid-template-columns: 96px minmax(80px, 1fr) 42px;
-    gap: 10px;
-    font-size: 14px;
+    grid-template-columns: 86px minmax(68px, 1fr) 36px;
+    gap: 8px;
+    font-size: 13px;
   }
 
   .result-title {
