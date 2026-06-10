@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>知乎内容分类档案</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="分类">
+        <div class="brand">
+          <div class="brand-mark">知</div>
+          <div>
+            <h1>知乎内容分类档案</h1>
+            <p>观察者 · mo-li-fei-ji</p>
+          </div>
+        </div>
+
+        <div class="stat-grid" id="statGrid"></div>
+        <nav class="category-list" id="categoryList"></nav>
+      </aside>
+
+      <main class="workspace">
+        <section class="toolbar" aria-label="筛选工具">
+          <div class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input id="searchInput" type="search" placeholder="搜索关键词、标题、正文或链接" autocomplete="off" />
+          </div>
+          <div class="control-row">
+            <div class="segmented" id="typeFilter" aria-label="内容类型"></div>
+            <select id="sortSelect" aria-label="排序">
+              <option value="dateDesc">按日期从新到旧</option>
+              <option value="dateAsc">按日期从旧到新</option>
+              <option value="likesDesc">按点赞数从高到低</option>
+              <option value="commentsDesc">按评论数从高到低</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <section class="results-panel" aria-label="结果列表">
+            <div class="results-head">
+              <div>
+                <div class="eyebrow" id="activeCategoryLabel">全部分类</div>
+                <h2 id="resultCount">0 条</h2>
+              </div>
+              <button id="clearButton" type="button">清除筛选</button>
+            </div>
+            <div class="category-bars" id="categoryBars"></div>
+            <div class="result-list" id="resultList"></div>
+          </section>
+
+          <article class="reader" id="reader" aria-label="正文阅读区">
+            <div class="reader-empty">
+              <h2>选择一条内容开始阅读</h2>
+              <p>列表会随关键词、分类和内容类型实时筛选。</p>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="./assets/archive-data.js"></script>
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
