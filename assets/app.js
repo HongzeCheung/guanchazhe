@@ -103,7 +103,7 @@ function renderCategories() {
     .map((category) => {
       const count = category === "全部" ? archive.entries.length : archive.summary[category] || 0;
       return `<button class="category-button ${state.category === category ? "active" : ""}" data-category="${escapeHtml(category)}">
-        <span>${escapeHtml(category)}</span>
+        <span class="category-name"><span class="category-dot" aria-hidden="true"></span>${escapeHtml(category)}</span>
         <span class="category-count">${formatNumber(count)}</span>
       </button>`;
     })
@@ -124,15 +124,16 @@ function renderBars() {
     .filter((category) => category !== "全部" && counts.get(category))
     .map((category) => [category, counts.get(category)])
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 6);
+    .slice(0, 5);
   const max = Math.max(1, ...rows.map((row) => row[1]));
-  els.categoryBars.innerHTML = rows
+  const bars = rows
     .map(([category, count]) => `<div class="bar-row">
       <span>${escapeHtml(category)}</span>
       <div class="bar-track"><div class="bar-fill" style="width:${Math.max(5, (count / max) * 100)}%"></div></div>
       <strong>${count}</strong>
     </div>`)
     .join("");
+  els.categoryBars.innerHTML = `<div class="panel-title">分类分布</div>${bars || `<div class="empty-state compact">暂无分类分布</div>`}`;
 }
 
 function highlight(value) {
@@ -160,8 +161,8 @@ function renderResults() {
           <span class="pill ${pillClass}">${escapeHtml(entry.category)}</span>
           <span>${escapeHtml(entry.type)}</span>
           <span>${escapeHtml(entry.date || "未标日期")}</span>
-          <span>赞 ${formatNumber(entry.likes)}</span>
-          ${entry.comments ? `<span>评 ${formatNumber(entry.comments)}</span>` : ""}
+          <span class="metric" aria-label="点赞">♡ ${formatNumber(entry.likes)}</span>
+          ${entry.comments ? `<span class="metric" aria-label="评论">□ ${formatNumber(entry.comments)}</span>` : ""}
         </div>
         <h3 class="result-title">${highlight(entry.title)}</h3>
         <p class="result-excerpt">${highlight(entry.excerpt || "")}</p>
@@ -225,13 +226,13 @@ function renderReader() {
       <span class="pill ${pillClass}">${escapeHtml(entry.category)}</span>
       <span>${escapeHtml(entry.type)}</span>
       <span>${escapeHtml(entry.date || "未标日期")}</span>
-      <span>赞 ${formatNumber(entry.likes)}</span>
-      ${entry.comments ? `<span>评 ${formatNumber(entry.comments)}</span>` : ""}
+      <span class="metric" aria-label="点赞">♡ ${formatNumber(entry.likes)}</span>
+      ${entry.comments ? `<span class="metric" aria-label="评论">□ ${formatNumber(entry.comments)}</span>` : ""}
     </div>
     <h2 class="reader-title">${escapeHtml(entry.title)}</h2>
     <div class="reader-actions">
-      ${entry.url ? `<a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer">打开知乎原文</a>` : ""}
-      <a href="#item-${entry.id}" id="copyLink">复制站内定位</a>
+      ${entry.url ? `<a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">↗</span> 打开知乎原文</a>` : ""}
+      <a href="#item-${entry.id}" id="copyLink"><span aria-hidden="true">⧉</span> 复制站内定位</a>
     </div>
     <div class="markdown">${renderMarkdown(entry.body || entry.excerpt || "")}</div>`;
 }
@@ -284,12 +285,13 @@ els.resultList.addEventListener("click", (event) => {
 });
 
 els.reader.addEventListener("click", async (event) => {
-  if (event.target.id !== "copyLink") return;
+  const link = event.target.closest("#copyLink");
+  if (!link) return;
   event.preventDefault();
   const url = `${location.origin}${location.pathname}#item-${state.selectedId}`;
   await navigator.clipboard?.writeText(url);
-  event.target.textContent = "已复制";
-  setTimeout(() => (event.target.textContent = "复制站内定位"), 1200);
+  link.textContent = "已复制";
+  setTimeout(() => (link.innerHTML = `<span aria-hidden="true">⧉</span> 复制站内定位`), 1200);
 });
 
 els.clearButton.addEventListener("click", () => {

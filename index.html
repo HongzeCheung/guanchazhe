@@ -29,25 +29,27 @@
           </div>
           <div class="control-row">
             <div class="segmented" id="typeFilter" aria-label="内容类型"></div>
-            <select id="sortSelect" aria-label="排序">
-              <option value="dateDesc">按日期从新到旧</option>
-              <option value="dateAsc">按日期从旧到新</option>
-              <option value="likesDesc">按点赞数从高到低</option>
-              <option value="commentsDesc">按评论数从高到低</option>
-            </select>
+            <div class="toolbar-actions">
+              <button id="clearButton" type="button">清除筛选</button>
+              <select id="sortSelect" aria-label="排序">
+                <option value="dateDesc">按日期从新到旧</option>
+                <option value="dateAsc">按日期从旧到新</option>
+                <option value="likesDesc">按点赞数从高到低</option>
+                <option value="commentsDesc">按评论数从高到低</option>
+              </select>
+            </div>
           </div>
         </section>
 
         <section class="content-grid">
           <section class="results-panel" aria-label="结果列表">
+            <div class="category-bars" id="categoryBars"></div>
             <div class="results-head">
               <div>
                 <div class="eyebrow" id="activeCategoryLabel">全部分类</div>
                 <h2 id="resultCount">0 条</h2>
               </div>
-              <button id="clearButton" type="button">清除筛选</button>
             </div>
-            <div class="category-bars" id="categoryBars"></div>
             <div class="result-list" id="resultList"></div>
           </section>
 
