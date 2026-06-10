@@ -20,6 +20,7 @@ const els = {
   reader: document.getElementById("reader"),
   clearButton: document.getElementById("clearButton"),
   categoryBars: document.getElementById("categoryBars"),
+  sidebarToggle: document.getElementById("sidebarToggle"),
 };
 
 const categoryClass = {
@@ -102,12 +103,22 @@ function renderCategories() {
   els.categoryList.innerHTML = archive.categories
     .map((category) => {
       const count = category === "全部" ? archive.entries.length : archive.summary[category] || 0;
+      const shortLabel = category === "全部" ? "全" : category.slice(0, 1);
       return `<button class="category-button ${state.category === category ? "active" : ""}" data-category="${escapeHtml(category)}">
-        <span class="category-name"><span class="category-dot" aria-hidden="true"></span>${escapeHtml(category)}</span>
+        <span class="category-name" data-short="${escapeHtml(shortLabel)}" title="${escapeHtml(category)}"><span class="category-dot" aria-hidden="true"></span>${escapeHtml(category)}</span>
         <span class="category-count">${formatNumber(count)}</span>
       </button>`;
     })
     .join("");
+}
+
+function setSidebarCollapsed(collapsed) {
+  document.body.classList.toggle("sidebar-collapsed", collapsed);
+  els.sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+  els.sidebarToggle.setAttribute("aria-label", collapsed ? "展开侧栏" : "收起侧栏");
+  els.sidebarToggle.setAttribute("title", collapsed ? "展开侧栏" : "收起侧栏");
+  els.sidebarToggle.querySelector("span").textContent = collapsed ? "›" : "‹";
+  localStorage.setItem("zhihuSidebarCollapsed", collapsed ? "1" : "0");
 }
 
 function renderTypeFilter() {
@@ -305,6 +316,11 @@ els.clearButton.addEventListener("click", () => {
   render();
 });
 
+els.sidebarToggle.addEventListener("click", () => {
+  setSidebarCollapsed(!document.body.classList.contains("sidebar-collapsed"));
+});
+
+setSidebarCollapsed(localStorage.getItem("zhihuSidebarCollapsed") === "1");
 renderStats();
 selectFromHash();
 render();
